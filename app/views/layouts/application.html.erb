@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Raccoon</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload", media: 'all' %>
+    <%= javascript_importmap_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+  </head>
+
+  <body class="bg-gray-50">
+    <%= render partial: 'layouts/nav' %>
+    <div class="h-screen w-screen">
+      <div class="mx-auto">
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+    <div id="info">
+      <% if notice.present? %>
+        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+      <% end %>
+
+      <%= render @novel %>
+
+      <%= link_to 'Edit this novel', edit_novel_path(@novel), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <div class="inline-block ml-2">
+        <%= button_to 'Destroy this novel', novel_path(@novel), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+      </div>
+      <%= link_to 'Back to novels', novels_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    </div>
+
+    <button id="reading-mode" class="mt-5 rounded-lg py-3 px-5 bg-blue-700 text-white display-block font-medium">Reading Mode</button>
+  </div>
+</div>
+<div class="mx-auto container sm:max-w-screen-sm lg:max-w-screen-lg">
+  <%= render partial: 'novel_content' %>
+  <%= form_with url: turn_page_novel_url, data: { turbo_frame: :reading }, class: 'flex justify-around pt-2' do |form| %>
+    <%= form.hidden_field :format, value: 'turbo_stream' %>
+    <%= form.submit 'Last', class: "btn bg-blue-700 hover:bg-blue-800 ml-2 rounded-lg py-3 px-5 text-white bg-green inline-block font-medium submit-buttons", value: 'last', id: 'last-page' %>
+    <%= form.submit 'Next', class: "btn bg-blue-700 hover:bg-blue-800 ml-2 rounded-lg py-3 px-5 text-white bg-green inline-block font-medium submit-buttons", value: 'next', id: 'next-page' %>
+  <% end %>
+</div>
+
+<script>
+  let reading = false;
+  const readingMode = document.getElementById('reading-mode');
+  readingMode.addEventListener('click', () => {
+    if (reading) {
+      readingMode.innerText = 'Reading Mode';
+      document.getElementById('info').style.display = 'block';
+      document.getElementById('reading').style.display = 'none';
+    } else {
+      readingMode.innerText = 'Info Mode';
+      document.getElementById('info').style.display = 'none';
+      document.getElementById('reading').style.display = 'block';
+    }
+    reading = !reading;
+  });
+
+  document.querySelectorAll('.submit-buttons').forEach((button) => {
+    button.addEventListener('click', () => {
+      scroll(0,0)
+    })
+  })
+
+  document.querySelector('html').addEventListener('keydown', (event) => {
+    const keyPressed = event.key;
+    switch (keyPressed) {
+      case 'ArrowRight':
+        document.querySelector('#next-page').click()
+        break;
+       case 'ArrowLeft':
+        document.querySelector('#last-page').click()
+        break; 
+      default:
+        break;
+    }
+  });
+</script>
