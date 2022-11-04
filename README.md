@@ -10,4 +10,9 @@ Rails 7 小说阅读器
    docker-compose run --rm web rails db:migrate
 ```
 
+
+```bash
+   docker-compose up
+```
+
 Access the application on `localhost:3000`
